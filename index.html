@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PMShorts: product news in 60 words</title>
+<meta name="description" content="PMShorts is a swipe-through feed of product management news, events and courses, sorted by industry. Join the waitlist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EDF0F7; --surface:#FFFFFF; --ink:#14162B; --ink2:#4B4F6C; --line:rgba(20,22,43,.14);
+  --brand:#2B2F9E; --brand-ink:#FFFFFF; --accent:#F2B134; --accent-ink:#2B1D00;
+  --t-ai:#E3DFFF; --t-fintech:#D3EFE0; --t-saas:#D6E6FF; --t-commerce:#FFE1CF; --t-health:#FFD8E1; --t-careers:#F5EAB5;
+  --font-ui:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-read:'Source Serif 4',Georgia,'Times New Roman',serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1020; --surface:#181B33; --ink:#F1F2FA; --ink2:#A9AEC9; --line:rgba(241,242,250,.16);
+    --brand:#A3A8FF; --brand-ink:#0E1020;
+    --t-ai:#27234F; --t-fintech:#163B2D; --t-saas:#18305A; --t-commerce:#4A2A18; --t-health:#4A1D2B; --t-careers:#453B12;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1020; --surface:#181B33; --ink:#F1F2FA; --ink2:#A9AEC9; --line:rgba(241,242,250,.16);
+  --brand:#A3A8FF; --brand-ink:#0E1020;
+  --t-ai:#27234F; --t-fintech:#163B2D; --t-saas:#18305A; --t-commerce:#4A2A18; --t-health:#4A1D2B; --t-careers:#453B12;
+}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-ui);-webkit-font-smoothing:antialiased;line-height:1.5}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:21px;letter-spacing:-.025em;text-decoration:none}
+.mark{width:28px;height:28px;border-radius:9px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-size:16px;font-weight:800}
+.bar a.cta-link{font-weight:700;font-size:15px;text-decoration:none;padding:9px 16px;border-radius:99px;border:1.5px solid var(--line)}
+.bar a.cta-link:hover{border-color:var(--ink)}
+
+/* hero */
+.hero{display:grid;gap:40px;padding:28px 0 64px;align-items:center}
+.hero h1{margin:0 0 18px;font-size:clamp(42px,9.5vw,80px);line-height:.98;letter-spacing:-.045em;font-weight:800;text-wrap:balance}
+.lede{font-family:var(--font-read);font-size:clamp(18px,2.4vw,21px);line-height:1.5;color:var(--ink);margin:0 0 26px;max-width:34em}
+
+/* waitlist form */
+.wl{max-width:520px}
+.wl label.l{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.wl input[type=email]{flex:1 1 240px;min-width:0;font-size:17px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.wl input[type=email]::placeholder{color:var(--ink2);opacity:.8}
+.btn{font-weight:800;font-size:17px;padding:14px 22px;border-radius:14px;background:var(--brand);color:var(--brand-ink);white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.6;cursor:default}
+.pick{margin:14px 0 4px;font-size:14px;color:var(--ink2)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 12px}
+.chip{font-size:14px;font-weight:600;padding:7px 13px;border-radius:99px;border:1.5px solid var(--line);color:var(--ink2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.status{min-height:1.4em;margin:10px 0 0;font-size:15px;font-weight:600}
+.status.err{color:#C0392B}
+.fine{font-size:13px;color:var(--ink2);margin:6px 0 0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* phone demo */
+.stage{display:grid;justify-items:center;gap:14px}
+.phone{width:min(300px,78vw);aspect-ratio:9/18.2;border-radius:42px;border:9px solid var(--ink);background:var(--ink);box-shadow:0 30px 60px -28px rgba(20,22,43,.5);overflow:hidden;position:relative}
+.screen{width:100%;height:100%;display:flex;flex-direction:column;padding:18px 18px 14px;background:var(--tint);color:var(--ink);transition:background .25s;cursor:pointer;text-align:left}
+.screen .sector{font-weight:800;font-size:68px;line-height:.95;letter-spacing:-.05em;color:color-mix(in srgb,currentColor 15%,transparent);margin:14px 0 0 -2px;white-space:nowrap}
+.screen .body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.screen h2{margin:0;font-size:22px;line-height:1.1;letter-spacing:-.025em;font-weight:700;text-wrap:balance}
+.screen p{margin:0;font-family:var(--font-read);font-size:14px;line-height:1.45}
+.screen .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:9px;border-top:1px solid color-mix(in srgb,currentColor 20%,transparent);font-size:12px}
+.screen .foot b{display:block;font-size:13px}
+.screen .read{font-weight:700;font-size:12.5px;padding:7px 11px;border-radius:99px;background:currentColor}
+.screen .read span{color:var(--tint);mix-blend-mode:normal}
+.t-ai{--tint:var(--t-ai)} .t-fintech{--tint:var(--t-fintech)} .t-careers{--tint:var(--t-careers)}
+.next{font-weight:700;font-size:15px;padding:9px 16px;border-radius:99px;border:1.5px solid var(--line)}
+.next:hover{border-color:var(--ink)}
+
+/* sections */
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2.h{margin:0 0 28px;font-size:clamp(30px,5vw,46px);line-height:1.05;letter-spacing:-.035em;font-weight:800;max-width:15em;text-wrap:balance}
+.rows{display:grid}
+.item{display:grid;gap:6px;padding:22px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0;padding-top:0}
+.item h3{margin:0;font-size:24px;letter-spacing:-.025em;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.item p{margin:0;font-family:var(--font-read);font-size:18px;line-height:1.5;max-width:34em}
+.tag{font-family:var(--font-ui);font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:8px;background:var(--accent);color:var(--accent-ink)}
+.two{display:grid;gap:28px}
+.two h3{margin:0 0 6px;font-size:22px;letter-spacing:-.02em}
+.two p{margin:0;font-family:var(--font-read);font-size:18px;max-width:30em}
+.founder{font-family:var(--font-read);font-size:clamp(22px,3.4vw,30px);line-height:1.35;max-width:28em;margin:0;letter-spacing:-.01em}
+.cta-block{background:var(--ink);color:var(--bg);border-radius:28px;padding:36px 24px;margin:8px 0 56px;border:0}
+.cta-block h2{margin:0 0 8px;font-size:clamp(30px,5vw,46px);letter-spacing:-.035em;line-height:1.05}
+.cta-block .lede{color:var(--bg);opacity:.85;margin-bottom:20px}
+.cta-block .wl input[type=email]{border-color:transparent}
+.cta-block .btn{background:var(--accent);color:var(--accent-ink)}
+.cta-block .pick,.cta-block .fine{color:var(--bg);opacity:.75}
+.cta-block .chip{border-color:color-mix(in srgb,var(--bg) 40%,transparent);color:var(--bg)}
+.cta-block .chip[aria-pressed="true"]{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+.cta-block .status.err{color:#FFB4A8}
+footer{padding:0 0 40px;font-size:13.5px;color:var(--ink2);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (min-width:860px){
+  .hero{grid-template-columns:1.1fr .9fr;padding:48px 0 88px}
+  .two{grid-template-columns:1fr 1fr;gap:48px}
+  .item{grid-template-columns:260px 1fr;gap:32px;align-items:baseline}
+  .cta-block{padding:56px}
+}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} .screen{transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="#top" id="top"><span class="mark">P</span>PMShorts</a>
+    <a class="cta-link" href="#join">Join the waitlist</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Product news, in 60 words.</h1>
+        <p class="lede">PMShorts is a swipe-through feed of product management news, sorted by industry, with events and courses alongside. Two minutes a day, built for working PMs and people breaking in.</p>
+
+        <form class="wl" id="join" novalidate>
+          <label class="l" for="email1">Your email</label>
+          <div class="row">
+            <input id="email1" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+            <button class="btn" type="submit">Join the waitlist</button>
+          </div>
+          <p class="pick">Which sectors do you follow? Optional.</p>
+          <div class="chips" role="group" aria-label="Sectors you follow"></div>
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="status" role="status" aria-live="polite"></p>
+          <p class="fine">Free to start. We will only email you about the launch.</p>
+        </form>
+      </div>
+
+      <div class="stage">
+        <div class="phone" aria-label="Preview of the PMShorts feed">
+          <div class="screen t-ai" id="screen" role="button" tabindex="0" aria-label="Next story" aria-live="polite">
+            <div class="sector" id="sSector">AI</div>
+            <div class="body"><h2 id="sTitle"></h2><p id="sText"></p></div>
+            <div class="foot"><div><b id="sSrc"></b><span id="sAgo"></span></div><span class="read"><span>Read story</span></span></div>
+          </div>
+        </div>
+        <button class="next" id="nextBtn" type="button">Next story</button>
+      </div>
+    </div>
+
+    <section aria-labelledby="inside">
+      <h2 class="h" id="inside">One place for the product world</h2>
+      <div class="rows">
+        <div class="item"><h3>Short news cards</h3><p>Every story in about 60 words and tagged by sector, from AI and fintech to SaaS, commerce and health. Swipe up for the next one, and open the full article only when you want it.</p></div>
+        <div class="item"><h3>Events</h3><p>Webinars, meetups, workshops and conferences in one calendar, with filters for city, type and price, so you can find what is worth your evening.</p></div>
+        <div class="item"><h3>Courses</h3><p>Hand-picked product management courses from Coursera, Udemy and other platforms, with a filter for free options and a place to save the ones you want.</p></div>
+        <div class="item"><h3>Mentorship <span class="tag">After launch</span></h3><p>Book a session with a working product leader to review your roadmap, prepare for interviews or plan a career switch.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="who">
+      <h2 class="h" id="who">Made for two kinds of readers</h2>
+      <div class="two">
+        <div><h3>You work in product</h3><p>You want to know what is changing in your industry without opening ten tabs, and to find the next event or course worth your time.</p></div>
+        <div><h3>You are breaking in</h3><p>You are a student or career switcher who needs a clear daily habit, honest signals about hiring, and a path into your first product role.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="why">
+      <h2 class="h" id="why">Built by someone who does this work</h2>
+      <p class="founder">PMShorts is built by a practising product leader who teaches product management at business schools and has mentored 1,200+ aspiring PMs. The aim is simple: less noise, better signal, one habit you can keep.</p>
+    </section>
+
+    <section class="cta-block" aria-labelledby="last" style="border-top:0">
+      <h2 id="last">Be first in when it opens</h2>
+      <p class="lede">Join the waitlist and we will email you once, when PMShorts is ready.</p>
+      <form class="wl" novalidate>
+        <label class="l" for="email2">Your email</label>
+        <div class="row">
+          <input id="email2" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+          <button class="btn" type="submit">Join the waitlist</button>
+        </div>
+        <p class="pick">Which sectors do you follow? Optional.</p>
+        <div class="chips" role="group" aria-label="Sectors you follow"></div>
+        <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="status" role="status" aria-live="polite"></p>
+        <p class="fine">Free to start. We will only email you about the launch.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 PMShorts</span>
+    <span>Stories shown above are samples.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  /* Paste your form endpoint here (for example a Formspree, Basin or Supabase function URL).
+     While this is empty, the form runs in preview mode and saves nothing. */
+  var WAITLIST_ENDPOINT='';
+
+  var SECTORS=['AI','Fintech','SaaS','Commerce','Health','Careers'];
+  var DEMO=[
+    {c:'t-ai',s:'AI',t:'PMs are writing evals before they write specs',x:'A growing number of PMs draft ten to twenty test cases before the first spec page. The cases define what a good answer looks like, so design and engineering line up early.',src:'Roadmap Weekly',ago:'5h ago'},
+    {c:'t-fintech',s:'Fintech',t:'Autopay drop-offs push teams to redesign consent screens',x:'Teams found users abandon recurring payment setup at the consent step. Plain language and a visible cap amount lifted completion in tests.',src:'Growth Ledger',ago:'1h ago'},
+    {c:'t-careers',s:'Careers',t:'APM hiring leans on short take-home product cases',x:'More companies are replacing long interview loops with a brief written case. Hiring managers say clear writing is the strongest early signal.',src:'Product Daily',ago:'5h ago'}
+  ];
+  var i=0,timer=null,touched=false;
+  var el=function(id){return document.getElementById(id);};
+  function show(n){
+    i=(n+DEMO.length)%DEMO.length;
+    var d=DEMO[i],sc=el('screen');
+    sc.className='screen '+d.c;
+    el('sSector').textContent=d.s;
+    el('sTitle').textContent=d.t;
+    el('sText').textContent=d.x;
+    el('sSrc').textContent=d.src;
+    el('sAgo').textContent=d.ago;
+  }
+  function next(user){
+    if(user){touched=true;clearInterval(timer);}
+    show(i+1);
+  }
+  show(0);
+  el('screen').addEventListener('click',function(){next(true);});
+  el('screen').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();next(true);}});
+  el('nextBtn').addEventListener('click',function(){next(true);});
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){timer=setInterval(function(){if(!touched)show(i+1);},6000);}
+
+  /* waitlist forms */
+  document.querySelectorAll('form.wl').forEach(function(form){
+    var chipBox=form.querySelector('.chips');
+    var picked=[];
+    SECTORS.forEach(function(s){
+      var b=document.createElement('button');
+      b.type='button';b.className='chip';b.textContent=s;b.setAttribute('aria-pressed','false');
+      b.addEventListener('click',function(){
+        var k=picked.indexOf(s);
+        if(k>-1){picked.splice(k,1);}else{picked.push(s);}
+        b.setAttribute('aria-pressed',String(k===-1));
+      });
+      chipBox.appendChild(b);
+    });
+    var status=form.querySelector('.status'),btn=form.querySelector('.btn');
+    function say(msg,err){status.textContent=msg;status.className='status'+(err?' err':'');}
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var email=form.elements.email.value.trim();
+      if(form.elements.company.value){return;}
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say('Enter a valid email address, like you@example.com.',true);form.elements.email.focus();return;}
+      if(!WAITLIST_ENDPOINT){
+        say('Preview mode: nothing was saved. Add your form endpoint to go live.',false);
+        return;
+      }
+      btn.disabled=true;say('Joining the list...',false);
+      fetch(WAITLIST_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,sectors:picked,source:'pmshorts.com'})})
+        .then(function(r){if(!r.ok){throw new Error('bad status');}return r;})
+        .then(function(){say('You are on the list. We will email you when PMShorts opens.',false);form.elements.email.value='';})
+        .catch(function(){say('That did not go through. Check your connection and try again.',true);})
+        .then(function(){btn.disabled=false;});
+    });
+  });
+})();
+</script>
+</body>
+</html>
