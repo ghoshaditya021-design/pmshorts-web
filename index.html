@@ -73,9 +73,9 @@ a{color:inherit}
 /* phone demo */
 .stage{display:grid;justify-items:center;gap:14px}
 .phone{width:min(300px,78vw);aspect-ratio:9/18.2;border-radius:42px;border:9px solid var(--ink);background:var(--ink);box-shadow:0 30px 60px -28px rgba(20,22,43,.5);overflow:hidden;position:relative}
-.screen{width:100%;height:100%;display:flex;flex-direction:column;padding:18px 18px 14px;background:var(--tint);color:var(--ink);transition:background .25s;cursor:pointer;text-align:left}
+.screen{position:absolute;inset:0;display:flex;overflow:hidden;flex-direction:column;padding:18px 18px 14px;background:var(--tint);color:var(--ink);transition:background .25s;cursor:pointer;text-align:left}
 .screen .sector{font-weight:800;font-size:68px;line-height:.95;letter-spacing:-.05em;color:color-mix(in srgb,currentColor 15%,transparent);margin:14px 0 0 -2px;white-space:nowrap}
-.screen .body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.screen .body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:10px}
 .screen h2{margin:0;font-size:22px;line-height:1.1;letter-spacing:-.025em;font-weight:700;text-wrap:balance}
 .screen p{margin:0;font-family:var(--font-read);font-size:14px;line-height:1.45}
 .screen .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:9px;border-top:1px solid color-mix(in srgb,currentColor 20%,transparent);font-size:12px}
@@ -209,7 +209,7 @@ footer{padding:0 0 40px;font-size:13.5px;color:var(--ink2);display:flex;justify-
 (function(){
   /* Paste your form endpoint here (for example a Formspree, Basin or Supabase function URL).
      While this is empty, the form runs in preview mode and saves nothing. */
-  var WAITLIST_ENDPOINT='';
+  var WAITLIST_ENDPOINT='https://formspree.io/f/xjyggwjj';
 
   var SECTORS=['AI','Fintech','SaaS','Commerce','Health','Careers'];
   var DEMO=[
